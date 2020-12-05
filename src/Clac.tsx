@@ -1,20 +1,8 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-// react navigation ライブラリ
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-gesture-handler";
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-// react native paper ライブラリ
-import { Provider as PaperProvider } from "react-native-paper"; // 追加
-
-// Screens
-import { Main } from "./src/Main";
-import { Compose } from "./src/Compose";
-
-export default function App() {
-
+export default function Calc() {
   // 任意点
   const arbitraryPoint = ();
   // 張力
@@ -25,12 +13,16 @@ export default function App() {
   const g = '9.806554';
   // 径間長
   const Spare = ();
+  // 樹高
+  const treeHeight = ();
+
+  const towerHeight = ();
 
   // 任意点弛度の計算
   const Result = lineWehight*g*(Spare-arbitraryPoint)*arbitraryPoint / 2*tension;
 
-  const DispResult = 
-
+  // 離隔計算結果
+  const DispResult = towerHeight - treeHeight - Result;
 
   return (
     <View style={styles.container}>
