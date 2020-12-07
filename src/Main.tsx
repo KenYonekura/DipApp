@@ -1,11 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// Navigationを使用するとい宣言
+import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
 
-export default function Main() {
+export function Main() {
+  // 画面遷移の定義
+  const navigation = useNavigation();
+
+  // Calc画面に移動する関数を定義
+  const toCompose = () => {
+    navigation.navigate("Calc");
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>DIP</Text>
+      <Button onPress={toCompose} title="START" />
       <StatusBar style="auto" />
     </View>
   );
@@ -14,8 +25,8 @@ export default function Main() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
