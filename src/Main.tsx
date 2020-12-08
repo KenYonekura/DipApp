@@ -9,14 +9,19 @@ export function Main() {
   const navigation = useNavigation();
 
   // Calc画面に移動する関数を定義
-  const toCompose = () => {
+  const toCalc = () => {
     navigation.navigate("Calc");
+  };
+
+  const toTableView = () => {
+    navigation.navigate("TableView");
   };
 
   return (
     <View style={styles.container}>
       <Text>DIP</Text>
-      <Button onPress={toCompose} title="START" />
+      <Button onPress={toCalc} title="START" />
+      <Button onPress={toTableView} title="DATA" />
       <StatusBar style="auto" />
     </View>
   );

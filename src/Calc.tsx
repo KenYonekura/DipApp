@@ -6,39 +6,53 @@ import { Button, StyleSheet, Text, View } from "react-native";
 export function Calc() {
   // 画面遷移の定義
   const navigation = useNavigation();
-
-  const toCompose = () => {
+// navigationによる画面遷移(戻り)
+  const toMain = () => {
     navigation.navigate("Main");
   };
 
   // 任意点
-  const arbitraryPoint = 100;
+  const [ArbitraryPoint, setArbitraryPoint] = React.useState(100);
   // 張力
-  const tension = 20000;
+  const [Tension, setTension] = React.useState(20000);
   // 電線重量
   const lineWehight = 0.7663;
   // 重力
   const g = 9.80665;
   // 径間長
-  const Spare = 400;
+  const [Spare, setSqare] = React.useState(400);
   // 樹高
-  const treeHeight = 25;
+  const [TreeHeight, setTreeHeight] = React.useState(15);
   // 鉄塔
-  const towerHeight = 35;
+  const [TowerHeight, setTowerHeight] = React.useState(30);
+  // 弛度結果出力
+  const [result, setResult] = React.useState();
+  // 離隔結果出力
+  const [result2, setResult2] = React.useState();
 
   // 任意点弛度の計算
-  const Result =
-    (lineWehight * g * (Spare - arbitraryPoint) * arbitraryPoint) /
-    (2 * tension);
+  const resultDipAdd = () => {
+    const result =
+      (lineWehight * g * (Spare - ArbitraryPoint) * ArbitraryPoint) /
+      (2 * Tension);
+    setResult(result);
+  };
 
-  // 離隔計算結果
-  const DispResult = towerHeight - treeHeight - Result;
+  // 離隔の計算結果
+  const resultSeparationAdd = () => {
+    const result2 = TowerHeight - TreeHeight - result;
+    setResult2(result2);
+  };
 
   return (
     <View style={styles.container}>
-      <Text>calc</Text>
-      <Button onPress={toCompose} title="計算" />
-      <Text>{DispResult}</Text>
+      <Text>任意点弛度</Text>
+      <Button onPress={resultDipAdd} title="計算" />
+      <Text>{result}</Text>
+      <StatusBar style="auto" />
+      <Text>離隔</Text>
+      <Button onPress={resultSeparationAdd} title="計算" />
+      <Text>{result2}</Text>
       <StatusBar style="auto" />
     </View>
   );
