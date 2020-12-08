@@ -7,44 +7,32 @@ import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
 
 // react native paper ライブラリ
-import { Provider as PaperProvider } from "react-native-paper"; // 追加
+// import { Provider as PaperProvider } from "react-native-paper"; // 追加
 
 // Screens
 import { Main } from "./src/Main";
-import { Compose } from "./src/Compose";
+import { Calc } from "./src/Calc";
+import { TableView } from "./src/TableView";
+
+const Stack = createStackNavigator();
 
 export default function App() {
-
-  // 任意点
-  const arbitraryPoint = ();
-  // 張力
-  const tension = ();
-  // 電線重量
-  const lineWehight = ();
-  // 重力
-  const g = '9.806554';
-  // 径間長
-  const Spare = ();
-
-  // 任意点弛度の計算
-  const Result = lineWehight*g*(Spare-arbitraryPoint)*arbitraryPoint / 2*tension;
-
-  const DispResult = 
-
-
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="Calc" component={Calc} />
+        <Stack.Screen name="TableView" component={TableView} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
