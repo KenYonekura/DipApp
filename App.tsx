@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import "react-native-gesture-handler";
+import "./src/Fire";
 
 // react native paper ライブラリ
 // import { Provider as PaperProvider } from "react-native-paper"; // 追加
