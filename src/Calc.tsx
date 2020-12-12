@@ -18,8 +18,8 @@ import RNPickerSelect from "react-native-picker-select";
 
 // FireBaseのから取り出してくる電線諸元の型を定義･･･①
 type Data = {
-  maxT: number;
-  weight: number;
+  label: string;
+  value: number;
 };
 
 export function Calc() {
@@ -52,9 +52,16 @@ export function Calc() {
       .firestore()
       .collection("Powerline")
       .get();
-    const PowerlineData = lineDataView.docs.map((doc) => doc.data() as Data);
+    const PowerlineData = lineDataView.docs.map((doc, index) => {
+      return {
+        label: doc.id,
+        value: doc.data().weight,
+        key: "weight",
+        // weight: doc.data().weight,
+      };
+    });
     setlineDatas(PowerlineData);
-    // console.log(PowerlineData);
+    console.log(PowerlineData);
     // console.log(lineDataView);
   };
 
@@ -63,13 +70,14 @@ export function Calc() {
   // 張力
   const [Tension, setTension] = React.useState("");
   // 電線重量の表示･･･③
-  // const lineWeight = lineData{SBACSRUGS160.weght};
+  const [lineWeight, setLineWeight] = useState(0);
   // console.log(lineData);
-  const lineWeight = lineData.map((SBACSRUGS160, index) => (
-    <View style={{ margin: 10 }} key={index.toString()}>
-      <Text>{SBACSRUGS160.weight}</Text>
-    </View>
-  ));
+  // const lineWeight = lineData.map((SBACSRUGS160, index) => (
+  //   <View style={{ margin: 10 }} key={index.toString()}>
+  //     <Text>{SBACSRUGS160.weight}</Text>
+  //   </View>
+  // ));
+
   // 重力
   const g = 9.80665;
   // 径間長
@@ -85,6 +93,7 @@ export function Calc() {
 
   // 任意点弛度の計算
   const resultDipAdd = () => {
+    // console.log(lineWeight);
     const result =
       (lineWeight * g * (Spare - ArbitraryPoint) * ArbitraryPoint) /
       (2 * Tension);
@@ -96,10 +105,20 @@ export function Calc() {
     const result2 = TowerHeight - TreeHeight - result;
     setResult2(result2);
   };
-
+  
+  const lineDataArray = [
+    { label: "SBACSRUGS160", value: 0, key: "weight" },
+    { label: "SBACSRUGS210", value: 1, key: "weight" },
+  ];
+  console.log(lineDataArray);
   return (
     <View style={styles.container}>
-      <Text>電線重量</Text>
+      <Text>電線選択</Text>
+      {/* iOSとアンドロイド対応のPicker */}
+      <RNPickerSelect
+        onValueChange={(value: number) => setLineWeight(lineData[value].value)}
+        items={lineDataArray}
+      />
       <Text>{lineWeight}</Text>
       <Text>任意点：</Text>
       <TextInput
