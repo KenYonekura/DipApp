@@ -8,7 +8,8 @@ import "react-native-gesture-handler";
 import "./src/Fire";
 
 // react native paper ライブラリ
-// import { Provider as PaperProvider } from "react-native-paper"; // 追加
+import { Provider as PaperProvider } from "react-native-paper"; // 追加
+import { Button } from "react-native-paper";
 
 // Screens
 import { Main } from "./src/Main";
@@ -19,13 +20,15 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Main" component={Main} />
-        <Stack.Screen name="Calc" component={Calc} />
-        <Stack.Screen name="TableView" component={TableView} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Calc" component={Calc} />
+          <Stack.Screen name="TableView" component={TableView} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
