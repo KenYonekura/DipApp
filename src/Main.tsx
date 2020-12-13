@@ -2,7 +2,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper"; // 追加
+import { TextInput, Text, Button } from "react-native-paper"; // 追加
 
 export function Main() {
   // 画面遷移の定義
@@ -18,20 +20,35 @@ export function Main() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>DIP</Text>
-      <Button onPress={toCalc} title="START" />
-      <Button onPress={toTableView} title="DATA" />
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider>
+      <View style={styles.container}>
+        <Text style={styles.Title}>DIP</Text>
+        <Button
+          style={styles.Button}
+          icon="calculator"
+          mode="contained"
+          onPress={toCalc}
+        >
+          START
+        </Button>
+        <StatusBar style="auto" />
+      </View>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F7C743",
     alignItems: "center",
     justifyContent: "center",
+  },
+  Title: {
+    margin: 10,
+    fontSize: 30,
+  },
+  Button: {
+    marginTop: 20,
   },
 });

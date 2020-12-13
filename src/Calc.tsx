@@ -2,19 +2,24 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   StyleSheet,
-  Text,
   View,
-  TextInput,
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  TextInput,
+  Text,
+  // Button,
 } from "react-native";
 // FireBseに接続するコンポーネント
 import * as firebase from "firebase";
 import "firebase/firestore";
 import RNPickerSelect from "react-native-picker-select";
+// react native paper ライブラリ
+import { Provider as PaperProvider } from "react-native-paper"; // 追加
+import { Button } from "react-native-paper"; // 追加
+import { color, sqrt } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // FireBaseのから取り出してくる電線諸元の型を定義･･･①
 type Data = {
@@ -105,73 +110,141 @@ export function Calc() {
     const result2 = TowerHeight - TreeHeight - result;
     setResult2(result2);
   };
-  
+
   const lineDataArray = [
     { label: "SBACSRUGS160", value: 0, key: "weight" },
     { label: "SBACSRUGS210", value: 1, key: "weight" },
   ];
   console.log(lineDataArray);
   return (
-    <View style={styles.container}>
-      <Text>電線選択</Text>
-      {/* iOSとアンドロイド対応のPicker */}
-      <RNPickerSelect
-        onValueChange={(value: number) => setLineWeight(lineData[value].value)}
-        items={lineDataArray}
-      />
-      <Text>{lineWeight}</Text>
-      <Text>任意点：</Text>
-      <TextInput
-        style={{ height: 30, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => setArbitraryPoint(text)}
-        value={ArbitraryPoint}
-        keyboardType="numeric"
-      />
-      <Text>水平張力：</Text>
-      <TextInput
-        style={{ height: 30, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => setTension(text)}
-        value={Tension}
-        keyboardType="numeric"
-      />
-      <Text>径間長：</Text>
-      <TextInput
-        style={{ height: 30, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => setSqare(text)}
-        value={Spare}
-        keyboardType="numeric"
-      />
-      <Text>樹高：</Text>
-      <TextInput
-        style={{ height: 30, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => setTreeHeight(text)}
-        value={TreeHeight}
-        keyboardType="numeric"
-      />
-      <Text>鉄塔高：</Text>
-      <TextInput
-        style={{ height: 30, borderColor: "gray", borderWidth: 1 }}
-        onChangeText={(text) => setTowerHeight(text)}
-        value={TowerHeight}
-        keyboardType="numeric"
-      />
-      <Text>任意点弛度</Text>
-      <Button onPress={resultDipAdd} title="計算" />
-      <Text>{result}</Text>
-      <StatusBar style="auto" />
-      <Text>離隔</Text>
-      <Button onPress={resultSeparationAdd} title="計算" />
-      <Text>{result2}</Text>
-      <StatusBar style="auto" />
-    </View>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.container}>
+        <Text style={styles.Text}>電線選択</Text>
+        {/* iOSとアンドロイド対応のPicker */}
+        <RNPickerSelect
+          onValueChange={(value: number) =>
+            setLineWeight(lineData[value].value)
+          }
+          items={lineDataArray}
+        />
+        {/* <KeyboardAwareScrollView> */}
+        <Text style={styles.Text}>電線重量{lineWeight}</Text>
+        <Text style={styles.Text}>任意点</Text>
+        <TextInput
+          style={{
+            fontSize: 20,
+            backgroundColor: "#fff",
+            paddingHorizontal: 30,
+          }}
+          onChangeText={(text) => setArbitraryPoint(text)}
+          value={ArbitraryPoint}
+          keyboardType="numeric"
+          // onSubmitEditing={Keyboard.dismiss}
+        />
+        <Text style={styles.Text}>水平張力</Text>
+        <TextInput
+          style={{
+            fontSize: 20,
+            backgroundColor: "#fff",
+            paddingHorizontal: 30,
+          }}
+          onChangeText={(text) => setTension(text)}
+          value={Tension}
+          keyboardType="numeric"
+          // onSubmitEditing={Keyboard.dismiss}
+        />
+        <Text style={styles.Text}>径間長</Text>
+        <TextInput
+          style={{
+            fontSize: 20,
+            backgroundColor: "#fff",
+            paddingHorizontal: 30,
+          }}
+          onChangeText={(text) => setSqare(text)}
+          value={Spare}
+          keyboardType="numeric"
+          // onSubmitEditing={Keyboard.dismiss}
+        />
+        <Text style={styles.Text}>樹高</Text>
+        <TextInput
+          style={{
+            fontSize: 20,
+            backgroundColor: "#fff",
+            paddingHorizontal: 30,
+          }}
+          onChangeText={(text) => setTreeHeight(text)}
+          value={TreeHeight}
+          keyboardType="numeric"
+          // onSubmitEditing={Keyboard.dismiss}
+        />
+        <Text style={styles.Text}>鉄塔高</Text>
+        <TextInput
+          style={{
+            fontSize: 20,
+            backgroundColor: "#fff",
+            paddingHorizontal: 30,
+          }}
+          onChangeText={(text) => setTowerHeight(text)}
+          value={TowerHeight}
+          keyboardType="numeric"
+          // onSubmitEditing={Keyboard.dismiss}
+        />
+        <Button
+          style={styles.Button}
+          icon="calculator"
+          mode="contained"
+          onPress={resultDipAdd}
+        >
+          弛度計算結果
+        </Button>
+        {/* <Button onPress={resultDipAdd} title="計算" /> */}
+        <Text style={styles.Text}>{result}</Text>
+        <StatusBar style="auto" />
+        <Button
+          style={styles.Button}
+          icon="tree"
+          mode="contained"
+          onPress={resultSeparationAdd}
+        >
+          離隔計算結果
+        </Button>
+        {/* <Button onPress={resultSeparationAdd} title="計算" /> */}
+        <Text style={styles.Text}>{result2}</Text>
+        <StatusBar style="auto" />
+        {/* </KeyboardAwareScrollView> */}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F7C743",
     alignItems: "center",
     justifyContent: "center",
+    margin: 10,
+  },
+  Text: {
+    margin: 5,
+    fontSize: 20,
+  },
+  Title: {
+    margin: 10,
+  },
+  Button: {
+    margin: 10,
+  },
+  textInput: {
+    height: 10,
+    borderColor: "#fff",
+    borderWidth: 30,
+  },
+  picker: {
+    alignItems: "center",
   },
 });
